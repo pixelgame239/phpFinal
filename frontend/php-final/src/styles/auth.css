@@ -1,0 +1,103 @@
+/* wrapper - giữ nguyên nếu bạn dùng nhiều trang */
+.page-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* từng panel sẽ là full screen và chứa title + form stacked */
+.login-panel,
+.register-panel {
+  width: 100%;
+  min-height: 100vh;                 /* full screen */
+  display: flex;
+  flex-direction: column;            /* title trên, form dưới */
+  justify-content: center;           /* căn giữa theo chiều dọc */
+  align-items: center;               /* căn giữa theo chiều ngang */
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* màu cho từng trang */
+.login-panel {
+  background-color: rgb(0, 179, 255);
+}
+
+.register-panel {
+  background-color: #2dc43c;
+}
+
+/* title */
+.login-title {
+  font-size: 4rem;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  margin: 0 0 20px; /* khoảng cách dưới title */
+}
+
+/* form card */
+.login-form {
+  width: 85%;
+  max-width: 420px;
+  border: 2px outset #00ffa2;
+  border-radius: 12px;
+  padding: 28px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float{
+  0%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(-10px);
+  }
+  100%{
+      transform: translateY(0px);
+  }
+}
+.auth-error{
+  font-size: 1rem;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+/* inputs */
+.login-input {
+  display: block;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin: 15px auto;
+  width: 90%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* buttons */
+.login-btn,
+.register-btn {
+  display: block;
+  width: 90%;
+  max-width: 360px;
+  margin: 14px auto 0;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* màu cụ thể */
+.login-btn { background-color: #00b3ff; }
+.register-btn { background-color: #22c55e; }
+
+/* responsive nhỏ hơn */
+@media (max-width: 420px) {
+  .login-title { font-size: 2.4rem; }
+  .login-form { padding: 20px; }
+}
