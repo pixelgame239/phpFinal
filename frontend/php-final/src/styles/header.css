@@ -1,0 +1,116 @@
+.header-container{
+    display: flex;
+    margin: 0;
+    height: 10%;
+    background-color: #ce994a;
+    position: sticky;
+    top: 0;
+}
+.header-title{
+    flex:1;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1e1d1d;
+    display: inline-block;
+    margin: 5px;
+    white-space: nowrap;
+}
+.header-buttons{
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.header-buttons button{
+    border-radius: 12px;
+    margin:10px 5px;
+    cursor: pointer;
+    background-color: rgb(170, 2, 2);
+    color: white;
+    font-size: 1.1rem;
+    padding: 5px;
+    transition: all 0.3s linear;
+    width: 15%;
+    border: none;
+    align-items: end;
+    font-weight: bold;
+}
+.header-buttons button:hover{
+    background-color: red;
+    transform: scale(1.02);
+}
+.header-buttons .active{
+    background-color: red;
+}
+.cart-button{
+    border-radius: 50%;
+    cursor: pointer;
+    margin:10px 5px;
+    font-size: 1.9rem;
+    border: none;
+    text-align: center;
+    transition: all 0.3s linear;
+    position: relative;
+}
+.cart-button.has-order{
+    animation: cart-button-shake 2s ease-in-out infinite;
+}
+.cart-button:hover{
+    transform: scale(1.02);
+    text-shadow: 0 4px 9px rgba(0, 0, 0, 0.293);
+}
+.cart-noti {
+    position: absolute;
+    top: -5px;
+    right: 0px; 
+    font-size: 0.7rem;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    min-width: 18px;
+    min-height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+@keyframes cart-button-shake {
+    0%   { transform: rotate(0deg); }
+    10%   { transform: rotate(-9deg); }
+    15%  { transform: rotate(9deg); }
+    20%  { transform: rotate(-9deg); }
+    25%  { transform: rotate(9deg); }
+    30%  { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+@media (max-width: 841px) {
+  .header-title { 
+    font-size: 1rem; 
+    flex:3;
+}
+.header-buttons{
+    gap: 5px;
+    flex: 1;
+}
+  .header-buttons button{ 
+    padding: 3px;
+    margin: 5px;
+    font-size: 0.85rem;
+    width: 15%;
+    flex: 1;
+    height: 80%;
+ }
+ .cart-button{
+    margin: 5px;
+    font-size: 1.3rem;
+ }
+ .cart-noti{
+    font-size: 0.5rem;
+    min-width: 12px;
+    min-height: 12px;
+    top: -3px;
+ }
+}

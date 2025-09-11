@@ -1,0 +1,92 @@
+.footer-container {
+  background-color: #ce994a;
+  color: white;
+  padding: 10px 20px; /* Reduced padding */
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto; /* Allow height to be adjusted based on content */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* Prevent wrapping to next line */
+  gap: 15px; /* Add a little gap between sections */
+}
+
+.footer-section {
+  flex: 1; /* Each section takes equal space */
+  margin: 5px;
+  min-width: 150px; /* Prevent the section from being too narrow */
+}
+
+.footer-section h4 {
+  font-size: 1.1rem;
+  margin-bottom: 5px; /* Reduced margin */
+}
+
+.footer-section p {
+  font-size: 0.9rem;
+  margin: 3px 0; /* Reduced margin */
+}
+
+.social-media a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 3px 0; /* Reduced margin between social media links */
+  font-size: 0.9rem; /* Smaller font size */
+}
+
+.social-media a:hover {
+  color: #1e1d1d;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.8rem; /* Smaller font size for the footer text */
+  border-top: 1px solid white;
+  padding-top: 5px;
+}
+
+/* --- Media Query for Small Screens (841px and below) --- */
+@media (max-width: 841px) {
+  .footer-container {
+    padding: 15px 10px; /* Adjust padding for smaller screens */
+  }
+
+  .footer-content {
+    flex-direction: row; /* Keep the sections in a row */
+    justify-content: space-between; /* Space them evenly */
+    align-items: flex-start; /* Align items to the top */
+    gap: 10px; /* Reduce the gap between sections */
+  }
+
+  .footer-section {
+    flex: 1; /* Make each section take up equal space */
+    min-width: 30%; /* Make each section take up 30% of the available space */
+    max-width: 30%; /* Ensure they don't exceed 30% */
+    text-align: center; /* Center text within each section */
+  }
+
+  .footer-section h4 {
+    font-size: 1rem; /* Reduce the font size of headings */
+  }
+
+  .footer-section p {
+    font-size: 0.85rem; /* Reduce the font size of paragraph text */
+  }
+
+  .social-media a {
+    font-size: 0.85rem; /* Slightly smaller font size for social media links */
+  }
+
+  .footer-bottom {
+    font-size: 0.7rem; /* Smaller font size for footer text */
+    padding-top: 10px;
+  }
+}

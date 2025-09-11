@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../styles/auth.css'; 
-import axios from "axios";
+import api from "../API";
 
 const AuthForm=({mode})=>{
+    const navigate = useNavigate()
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
       const [confirmPass, setConfirmPass] = useState("");
@@ -22,7 +23,10 @@ const AuthForm=({mode})=>{
             else{
                 try{
                     setError(null);
-                    const response = await axios.post("http://localhost/final/backend/handle_auth.php", {action:"register", username:username, password:password});
+                    const response = await api.post("handle_auth.php", {action:"register", username:username, password:password});
+                    if (response.data.status === "OK"){
+                        navigate("/");
+                    }
                 }
                 catch (error){
                     setError(error);
@@ -38,8 +42,11 @@ const AuthForm=({mode})=>{
         else{
             try{
                 setError(null);
-                const response = await axios.post("http://localhost/final/backend/handle_auth.php", {action:"login", username: username, password:password});
-                alert(response.data.message);
+                const response = await api.post("handle_auth.php", {action:"login", username: username, password:password});
+                if (response.data.status === "OK"){
+                    console.log("Logged in");
+                        navigate("/");
+                }
             }
             catch (error){
                 setError(error);
@@ -77,7 +84,7 @@ const AuthForm=({mode})=>{
                 {mode==="Login"?"Don't have an account?":"Already have an account?"}
                 {mode==="Login"?
                 <Link to="/register">Register</Link>
-                :<Link to="/">Login</Link>
+                :<Link to="/login">Login</Link>
                 }
             </p>
             </form>
