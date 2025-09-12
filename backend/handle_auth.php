@@ -1,12 +1,13 @@
 <?php
     session_start();
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Headers: *");
-    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Origin: http://localhost:5173");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
     require "database_connect.php";
     header('Content-Type: application/json');
     $data = json_decode(file_get_contents("php://input"), true);
-    $action = $data['action'];
+    $action = isset($data['action'])?$data['action']:"";
     if ($action==="register"){
         $username = $data['username'];
         $password = $data['password'];
@@ -14,6 +15,20 @@
         try{
             $stmt = $pdo->prepare("Insert into users(username,user_password) values (:username, :password)");
             $stmt->execute([":username"=>$username, ":password"=>$hashedPass]);
+            $newID = $pdo -> lastInsertId();
+            $stmt = $pdo->prepare("Select cart_items from users where id = :id");
+            $stmt->execute([':id'=>$newID]);
+            $cartData = $stmt->fetch(PDO::FETCH_ASSOC);
+            $cartArr = json_decode($cartData['cart_items'], true);
+            setcookie(
+                "userInfo",
+                json_encode(["userID"=>$newID, "username"=>$username, "role"=>"Customer", "cart_items"=>$cartArr]),
+                time() + (60*60*24),
+                "/",
+                "",
+                false,
+                true
+            );
             echo json_encode(["status"=>"OK", "message"=>"Successfully registered"]);
         } catch (PDOException $e){
             echo json_encode(["status"=>"Error", "message"=>"Username already exists"]);
@@ -28,9 +43,24 @@
         $dbPass = $user["user_password"]??"Null";
         if($user){
             if(password_verify($password, $user['user_password'])){
-                $_SESSION['userID'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['user_role'];
+                $cartArr = json_decode($user['cart_items'], true);
+                if($user['user_role']=="Admin"){
+                    $_SESSION['userID'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['role'] = $user['user_role'];
+                    $_SESSION['cart_items'] = $cartArr;
+                }
+                else{
+                    setcookie(
+                        "userInfo",
+                        json_encode(["userID"=>$user['id'], "username"=>$user['username'], "role"=>$user['user_role'], "cart_items"=>$cartArr]),
+                        time() + (60*60*24),
+                        "/",
+                        "",
+                        false,
+                        true
+                    );
+                }
                 echo json_encode(["status"=>"OK", "message"=>"Logged in"]);
             }
             else{
@@ -43,6 +73,45 @@
     }
     else if($action ==="logout"){
         session_destroy();
+        $_SESSION = [];
+        if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(), 
+            '',
+            time() - (60*60*24),
+            $params["path"],
+            $params["domain"],
+            $params["secure"],
+            $params["httponly"]
+            );
+        }
+        session_destroy();
+        setcookie(
+            "userInfo",
+            "",
+            time() - (60*60*24),
+            "/",
+            "",
+            false,
+            true
+        );
         echo json_encode(["status"=>"OK", "message"=>"Logged out"]);
+    }
+    else{
+        if (isset($_SESSION['role']) && $_SESSION['role']==='Admin') {
+            $user = [
+            "id"       => $_SESSION['userID'],
+            "username" => $_SESSION['username'],
+            "role"     => "Admin"
+            ];
+        }
+        elseif (isset($_COOKIE['userInfo'])) {
+            $user = json_decode($_COOKIE['userInfo'], true);
+            $user['role'] = 'Customer';
+        } else {
+            $user = null;
+        }
+        echo json_encode(["currentUser"=>$user]);
     }
 ?>

@@ -1,17 +1,44 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Headers: *");
-    header("Access-Control-Allow-Methods: *");
+    header("Access-Control-Allow-Origin: http://localhost:5173");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
     require "database_connect.php";
     header('Content-Type: application/json');
     $data = json_decode(file_get_contents("php://input"), true);
-    $action = $data['action'];
-    if ($data && isset($data['action']) && $data['action'] == 'bestSeller') {
-        $stmt = $pdo->query("Select * from foods order by order_count desc limit 3");
-        $topFoods = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($topFoods);
+    $action = isset($data['action']) ? $data['action']:"";
+    if ($data && isset($data['action'])) {
+        if($data['action'] == 'bestSeller'){
+            $stmt = $pdo->query("Select * from foods order by order_count desc limit 3");
+            $topFoods = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($topFoods);
+        }
+        elseif($data['action']=='fetchAll'){
+            $stmt = $pdo->query("Select f.*, category_name from foods f join category c on f.cat_id = c.id");
+            $allFoods = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($allFoods);
+        }
     }
     else{
-        echo json_encode(['error'=>"Invalid action"]);
+        if (isset($_GET['parameter']) && trim($_GET['parameter']) !== '') {
+            $searchParam = $_GET['parameter'];
+            $searchTerm  = "%{$searchParam}%";
+
+            $stmt = $pdo->prepare("
+                SELECT f.*, c.category_name
+                FROM foods f
+                JOIN category c ON f.cat_id = c.id
+                WHERE f.food_name LIKE :search
+            ");
+            $stmt->execute([':search' => $searchTerm]);
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        } else {
+            $stmt = $pdo->query("
+                SELECT f.*, c.category_name
+                FROM foods f
+                JOIN category c ON f.cat_id = c.id
+            ");
+            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+        }
     }
 ?>
