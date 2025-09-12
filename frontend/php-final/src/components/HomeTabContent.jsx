@@ -1,5 +1,6 @@
 import FoodCart from "../components/FoodCard";
 import "../styles/home.css";
+import FoodReviews from "./FoodReviews";
 
 const HomeTabContent = ({topFoods, error}) =>{
     return <div>
@@ -11,6 +12,7 @@ const HomeTabContent = ({topFoods, error}) =>{
                 ))
             )}
         </div>
+        <FoodReviews></FoodReviews>
     </div>
 }
 export default HomeTabContent;

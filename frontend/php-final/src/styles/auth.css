@@ -91,13 +91,30 @@
   border-radius: 12px;
   cursor: pointer;
 }
+.back-to-home{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border: none;
+  padding: 10px;
+  background-color: white;
+  color: rgb(0, 102, 255);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+}
+.back-to-home:hover{
+  transform: scale(1.05);
+  border-radius: 16px;
+}
 
 /* màu cụ thể */
 .login-btn { background-color: #00b3ff; }
 .register-btn { background-color: #22c55e; }
 
 /* responsive nhỏ hơn */
-@media (max-width: 420px) {
+@media (max-width: 430px) {
   .login-title { font-size: 2.4rem; }
   .login-form { padding: 20px; }
 }

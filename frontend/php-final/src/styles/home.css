@@ -13,7 +13,7 @@
 }
 .card-container{
     width: 20vw;
-    height: 50vh;
+    height: 70vh;
     border: 2px inset red;
     margin-top: 10px;
     border-radius: 12px;
@@ -59,17 +59,55 @@
     padding: 3px;
     font-style:italic;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+.card-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right:5px;
+    gap: 10px;
+}
+.card-order-button, .card-buy-button{
+    flex:1;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.1s linear;
+}
+.card-order-button{
+    color: white;
+    background-color: rgb(45, 164, 255);
+}
+.card-order-button:hover, .card-buy-button:hover{
+    transform: scale(1.05);
+    background-color: white;
+}
+.card-order-button:hover{
+    color: rgb(3, 77, 134);
+    border: 1px inset rgb(45, 164, 255);
+}
+.card-buy-button{
+    color: white;
+    background-color: green;
+}
+.card-buy-button:hover{
+    color: green;
+    border: 1px inset green;
+}
 @media (max-width:841px){
     .carousel-container{
-        height: 35vh;
+        height: 30vh;
     }
     .card-container{
-        height: 20vh;
-        width: 25vw;
+        height: 45vh;
+        width: 28vw;
     }
     .card-title{
         font-size: 0.9rem;
@@ -80,5 +118,153 @@
     .card-description{
         font-size: 0.7rem;
         -webkit-line-clamp: 1;
+        margin-bottom: 0;
     }
+    .card-buttons{
+        margin-bottom: 5px;
+        margin-left: 3px;
+        margin-right:3px;
+        gap: 3px;
+    }
+    .card-order-button, .card-buy-button{
+        flex:1;
+        padding: 5px;
+        font-size: 0.7rem;
+        font-weight: bold;
+    }
+}
+.menu-food-container{
+    margin: 5px 5px;
+}
+.food-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 16px;
+    padding: 16px;
+}
+@media (max-width: 860px) {
+    .food-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .carousel-container{
+        height: 65vh;
+    }
+}
+@media (max-width: 500px) {
+    .food-grid{
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+}
+@media (max-width: 430px){
+    .best-seller-container{
+        flex-direction: column;
+        align-items: center;
+    }
+    .card-container{
+        width: 80vw;
+        height: 40vh;
+    }
+    .food-grid{
+        grid-template-columns: 1fr;
+    }
+}
+@media (min-height: 700px){
+    .best-seller-container{
+        flex-direction: row;
+    }
+    .card-container{
+        width: 30vw;
+        height: 26vh;
+    }
+    .food-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .carousel-container{
+        height: 35vh;
+    }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ccc;
+  border-top: 6px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+  margin-top:30px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.search-container{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+.search-input{
+    width: 80%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid gray;
+}
+.search-input::placeholder{
+    font-style: italic;
+}
+.search-button{
+    border-radius: 12px;
+    border: none;
+    background-color: rgb(0, 255, 195);
+    font-weight: bold;
+    cursor: pointer;
+}
+.search-button:hover{
+    background-color: rgb(0, 71, 52);
+    color: white;
+}
+.filter-container {
+  margin: 12px 0 20px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.filter-row {
+  display: flex;
+  gap: 12px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.filter-select {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+}
+.filter-select option{
+    width: 100%;
 }

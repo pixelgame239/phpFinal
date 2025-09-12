@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../GlobalContext";
 
 const Header = () =>{
-    const {currentTab,setCurrentTab} = useGlobalContext();
+    const {currentTab,setCurrentTab, userInfo} = useGlobalContext();
     const nav = useNavigate()
     return<div className="header-container">
         <div className="header-title">Online Restaurant Ordering</div>
@@ -14,7 +14,7 @@ const Header = () =>{
             <div className="cart-button">🛒
                 <div className="cart-noti">1</div>
             </div>
-            <button onClick={()=>nav("/login")}>Login</button>
+            {userInfo?<div>{userInfo['role']==="Customer"?"🧑‍🍳":"🧑‍💼"}</div>:<button onClick={()=>nav("/login")}>Login</button>}
         </div>
     </div>
 }
