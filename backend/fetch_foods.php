@@ -32,7 +32,13 @@
             ");
             $stmt->execute([':search' => $searchTerm]);
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-        } else {
+        } elseif(isset($_GET['productID']) && is_numeric($_GET['productID'])){
+            $productID = $_GET['productID'];
+            $stmt = $pdo->prepare("Select * from foods where id = :productID");
+            $stmt->execute([':productID'=>$productID]);
+            echo json_encode($stmt->fetch(PDO::FETCH_ASSOC));
+        } 
+        else {
             $stmt = $pdo->query("
                 SELECT f.*, c.category_name
                 FROM foods f

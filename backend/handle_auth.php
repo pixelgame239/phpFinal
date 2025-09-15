@@ -72,46 +72,51 @@
         }
     }
     else if($action ==="logout"){
-        session_destroy();
-        $_SESSION = [];
-        if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(
-            session_name(), 
-            '',
-            time() - (60*60*24),
-            $params["path"],
-            $params["domain"],
-            $params["secure"],
-            $params["httponly"]
+        try{
+            session_destroy();
+            $_SESSION = [];
+            if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(), 
+                '',
+                time() - (60*60*24),
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+                );
+            }
+            setcookie(
+                "userInfo",
+                "",
+                time() - (60*60*24),
+                "/",
+                "",
+                false,
+                true
             );
+            echo json_encode(["status"=>"OK", "message"=>"Logged out"]);
+        } catch(Exception $e){
+            echo json_encode(['status'=>"Error", "message"=>$e]);
         }
-        session_destroy();
-        setcookie(
-            "userInfo",
-            "",
-            time() - (60*60*24),
-            "/",
-            "",
-            false,
-            true
-        );
-        echo json_encode(["status"=>"OK", "message"=>"Logged out"]);
     }
     else{
         if (isset($_SESSION['role']) && $_SESSION['role']==='Admin') {
             $user = [
-            "id"       => $_SESSION['userID'],
+            "userID"       => $_SESSION['userID'],
             "username" => $_SESSION['username'],
-            "role"     => "Admin"
+            "role"     => "Admin",
+            "cart_items"=>$_SESSION['cart_items']
             ];
         }
         elseif (isset($_COOKIE['userInfo'])) {
             $user = json_decode($_COOKIE['userInfo'], true);
             $user['role'] = 'Customer';
-        } else {
+        }
+        else{
             $user = null;
         }
-        echo json_encode(["currentUser"=>$user]);
+        echo json_encode($user);
     }
 ?>

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import api from "./API";
 
 const GlobalContext = createContext();
 
@@ -7,9 +8,28 @@ export const GlobalProvider = ({children}) =>{
     const [fetchedFoods, setFetchedFoods] = useState([]);
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [userInfo, setUserInfo] = useState();
+    const [userInfo, setUserInfo] = useState(null);
+    const [cartItems, setCartItems] = useState([]);
+    useEffect(()=>{
+      const checkUserStatus = async () => {
+            try {
+                const response = await api.get('handle_auth.php'); 
+                if (response.data) {
+                    setUserInfo(response.data);
+                    setCartItems(response.data.cart_items);
+                } else {
+                    setUserInfo(null);
+                }
+            } catch (err) {
+                console.error("Failed to fetch user info on app load", err);
+                setUserInfo(null); 
+            }
+        };
+
+        checkUserStatus();
+    }, []);
     return (
-        <GlobalContext.Provider value ={{ currentTab, setCurrentTab, fetchedFoods, setFetchedFoods, error, setError, isLoading, setIsLoading, userInfo, setUserInfo }}>
+        <GlobalContext.Provider value ={{ currentTab, setCurrentTab, fetchedFoods, setFetchedFoods, error, setError, isLoading, setIsLoading, userInfo, setUserInfo, cartItems, setCartItems }}>
             {children}
         </GlobalContext.Provider>
     )

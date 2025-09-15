@@ -1,0 +1,96 @@
+.detail-container{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+}
+.detail-img{
+    width: 50vw;
+    border-radius: 12px;
+    border: 1px outset red;
+    height: 80vh;
+    object-fit: cover;
+}
+.detail-title{
+    text-align: center;
+    color: red;
+    font-size: 3rem;
+}
+.detail-description{
+    font-style: italic;
+    font-size: 1.5rem;
+}
+.detail-price{
+    font-weight: bold;
+    font-size: 2rem;
+    color: red;
+    text-align: left;
+}
+.back-button {
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    margin: 10px;
+    border-radius: 16px;
+    transition: all 0.3s linear;
+}
+
+
+.back-button:hover {
+    background-color: rgb(208, 208, 208);
+}
+.detail-buttons{
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    width: 20vw;
+    justify-content: space-between;
+}
+.detail-order-button, .detail-buy-button{
+    flex:1;
+    padding: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.1s linear;
+    color: white;
+}
+.detail-order-button{
+    background-color: rgb(45, 164, 255);
+    border: 1px outset rgb(45, 164, 255);
+}
+.detail-order-button:hover{
+    color: rgb(3, 77, 134);
+    background-color: white;
+}
+.detail-buy-button{
+    background-color: green;
+    border: 1px outset green;
+}
+.detail-buy-button:hover{
+    background-color: white;
+    color: green;
+}
+@media (min-height:900px) {
+    .detail-img{
+        width: 80vw;
+        height: 30vh;
+    }
+}
+@media (max-width: 860px) {
+    .detail-buttons{
+        width: auto;
+    }
+    .detail-buy-button, .detail-order-button{
+        padding: 25px;
+    }
+}
+

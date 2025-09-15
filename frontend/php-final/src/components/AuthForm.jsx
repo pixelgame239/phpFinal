@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/auth.css'; 
 import api from "../API";
+import { getUserInfo } from "../services/User";
+import { useGlobalContext } from "../GlobalContext";
 
 const AuthForm=({mode})=>{
+    const { userInfo, setUserInfo, setCartItems } = useGlobalContext();
     const navigate = useNavigate()
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
@@ -25,6 +28,9 @@ const AuthForm=({mode})=>{
                     setError(null);
                     const response = await api.post("handle_auth.php", {action:"register", username:username, password:password});
                     if (response.data.status === "OK"){
+                        const userData = await getUserInfo();
+                        setUserInfo(userData);
+                        setCartItems(userData.cart_items);
                         navigate("/");
                     }
                 }
@@ -44,7 +50,9 @@ const AuthForm=({mode})=>{
                 setError(null);
                 const response = await api.post("handle_auth.php", {action:"login", username: username, password:password});
                 if (response.data.status === "OK"){
-                    console.log("Logged in");
+                        const userData = await getUserInfo();
+                        setUserInfo(userData);
+                        setCartItems(userData.cart_items);
                         navigate("/");
                 }
             }

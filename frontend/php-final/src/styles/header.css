@@ -115,3 +115,54 @@
     top: -3px;
  }
 }
+.header-avatar{
+    margin: 5px;
+    border: 1px solid red;
+    background-color: white;
+    border-radius: 50%;
+    justify-content: center;
+    height: 80%;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    position: relative;
+}
+.header-avatar:hover{
+    box-shadow: 0px 3px 9px rgb(95, 0, 0);
+    background-color: rgb(255, 136, 136);
+}
+.header-avatar p{
+    margin: auto;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.avatar-menu {
+  position: absolute;
+  top: 100%; 
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+border-bottom-left-radius: 9px;
+border-bottom-right-radius: 9px;
+border-top-left-radius: 9px;
+border-top-right-radius: 9px;
+}
+
+.avatar-menu button {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  margin: 0;
+}
+
+.avatar-menu button:hover {
+  background-color: #f1f1f1;
+}

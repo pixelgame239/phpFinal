@@ -7,22 +7,14 @@ import { useGlobalContext } from "../GlobalContext";
 import HomeTabContent from "../components/HomeTabContent";
 import LoadingComponent from "../components/LoadingComponent";
 import MenuTabContent from "../components/MenuTabContent";
+import AdminDashboard from "../components/AdminDashboard";
 
 const HomePage = () =>{
     const { currentTab, userInfo, setUserInfo, fetchedFoods, setFetchedFoods, error, setError, isLoading, setIsLoading } = useGlobalContext();
     // const [fetchedFoods, setFetchedFoods] = useState([]);
     // const [error, setError] = useState(false);
     useEffect(()=>{
-        const getUserInfo = async()=>{
-            try{
-                setIsLoading(true);
-                const response = await api.get("handle_auth.php");
-                setUserInfo(response.data);
-                console.log(userInfo);
-            } catch(err){
-                console.error(err);
-            }
-        }
+        console.log(userInfo);
         const fetchTopFoods = async()=>{
             try{
                 setIsLoading(true);
@@ -63,11 +55,11 @@ const HomePage = () =>{
         else if(currentTab==="Menu"){
             fetchFoods();
         }
-        getUserInfo();
     },[currentTab]);
     return <div>
         <Header></Header>
         <Carousel></Carousel>
+        {userInfo&&userInfo.role==="Admin"?<AdminDashboard></AdminDashboard>:null}
         {isLoading?<LoadingComponent></LoadingComponent>: currentTab == "Home"? <HomeTabContent topFoods={fetchedFoods} error={error} ></HomeTabContent>:<MenuTabContent></MenuTabContent>}
         <Footer></Footer>
     </div>
