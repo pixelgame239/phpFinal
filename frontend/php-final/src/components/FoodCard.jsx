@@ -9,7 +9,7 @@ const FoodCart = ({data}) =>{
     const handleClick = () =>{
         nav(`/food${data.id}`)
     }
-   const handleOrder = async (e) =>{
+   const handleOrder = async (e, isBuy=false) =>{
          e.stopPropagation(); 
         const orderDetail = {
             foodID: data.id, quantity: 1
@@ -58,6 +58,9 @@ const FoodCart = ({data}) =>{
                 setCartItems([...cartItems, orderDetail]);
             }
         }
+        if(isBuy){
+            nav("/cart");
+        }
         // console.log(sessionStorage.getItem("cart_items"));
     }
     return <div className="card-container" onClick={handleClick}>
@@ -70,7 +73,7 @@ const FoodCart = ({data}) =>{
         <p className="card-description">{data.description}</p>
         <div className="card-buttons">
             <button className="card-order-button" onClick={handleOrder}>Order</button>
-            <button className="card-buy-button">Buy</button>
+            <button className="card-buy-button" onClick={(e)=>handleOrder(e, true)}>Buy</button>
         </div>
     </div>
 }

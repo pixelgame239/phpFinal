@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getFoodByID } from "../services/Food";
 import LoadingComponent from "../components/LoadingComponent";
 import "../styles/detail.css";
 import { useGlobalContext } from "../GlobalContext";
 import api from "../API";
+import BackButton from "../components/BackButton";
 
 const FoodPage = () =>{
     const { productid } = useParams();
@@ -13,9 +14,7 @@ const FoodPage = () =>{
     const [foodData, setFoodData] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
-    const handleBack=()=>{
-        window.history.back();
-    }
+    const nav = useNavigate();
     useEffect(()=>{
         const initFoodPage = async () =>{
             setIsLoading(true);
@@ -31,7 +30,7 @@ const FoodPage = () =>{
         }
         initFoodPage();
     },[]);
-    const handleOrder = async (e) =>{
+    const handleOrder = async (e, isBuy=false) =>{
          e.stopPropagation(); 
         const orderDetail = {
             foodID: id, quantity: 1
@@ -80,10 +79,13 @@ const FoodPage = () =>{
                 setCartItems([...cartItems, orderDetail]);
             }
         }
+        if(isBuy){
+            nav("/cart");
+        }
         // console.log(sessionStorage.getItem("cart_items"));
     }
     return<div>
-        <button className="back-button" onClick={handleBack}>&#60; Back</button>
+        <BackButton></BackButton>
         {isLoading?<LoadingComponent></LoadingComponent>:isError?<p>Unexpected Error: Food not found</p>:
         <><div className="detail-container">
             <div><img src={`http://localhost/final/backend/${foodData.food_image}`} alt={foodData.food_name} className="detail-img"></img></div>
@@ -96,7 +98,7 @@ const FoodPage = () =>{
         </div>
             <div className="detail-buttons">
                 <button className="detail-order-button" onClick={handleOrder}>Order</button>
-                <button className="detail-buy-button">Buy</button>
+                <button className="detail-buy-button" onClick={(e)=>handleOrder(e, true)}>Buy</button>
             </div>
             </>
         }

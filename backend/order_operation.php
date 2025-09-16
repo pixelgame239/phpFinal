@@ -16,4 +16,18 @@
             echo json_encode(["status"=>"error", "message"=>$e->getMessage()]);
         }
     }
+    elseif($action=="confirmOrder"){
+        try{
+            $stmt = $pdo->prepare("Insert into orders(user_id, total, status, created_at) values (:userID,:total,'Pending', NOW())");
+            $stmt->execute(["userID"=>$data['userID'], "total"=>$data['total']]);
+            $newOrderID = $pdo -> lastInsertId();
+            foreach($data['cartItems'] as $item){
+                $stmt = $pdo->prepare("Insert into order_items(order_id, food_id, quantity, price) values (:orderID, :foodID, :quantity,:price)");
+                $stmt->execute(["orderID"=>$newOrderID, "foodID"=>$item['id'], "quantity"=>$item['quantity'], "price"=>$item['itemPrice']]);
+            }
+            echo json_encode(["status"=>"OK", "message"=>"Successfully ordered"]);
+        } catch(PDOException $e){
+            echo json_encode(["status"=>"error", "message"=>$e->getMessage()]);
+        }
+    }
 ?>

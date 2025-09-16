@@ -7,6 +7,7 @@
     border-radius: 16px;
     height: 25vh;
     width: 80%;
+    position: relative;
 }
 .cart-image{
     height: 80%;
@@ -16,6 +17,11 @@
 }
 .cart-input{
     flex: 1;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 8px;
+    width: 50px;
 }
 .cart-item-total{
     flex: 3;
@@ -23,10 +29,16 @@
     margin: 10px;
     font-weight: bold;
     color: red;
+    font-size: 1.5rem;
+    width: 100%;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 .cart-name{
     flex: 4;
     font-size: 1.5rem;
+    font-weight: bold;
 }
 .cart-container{
     margin: 20px;
@@ -35,4 +47,50 @@
     gap: 20px;
     justify-content: center;
     align-items: center;
+}
+.all-cart-total{
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: end;
+    margin: 10px;
+    color: red;
+    margin-bottom: 70px;
+}
+.confirm-order-btn{
+    background-color: orangered;
+    color: white;
+    border: 1px outset red;
+    text-align: center;
+    padding: 20px;
+    border-radius: 16px;
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 99;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+.confirm-order-btn:hover{
+    background-color: white;
+    color: orangered;
+}
+@media (max-width:750px) {
+        .cart-item-container{
+            width: 90%;
+            height: auto;
+            flex-direction: column;
+        }
+        .cart-image{
+            margin: 0px;
+            width: 80%;
+        }
+        .cart-name, .cart-item-total{
+            margin: 5px;
+            text-align: center;
+        }
+        .cart-input{
+            padding: 10px;
+        }
 }

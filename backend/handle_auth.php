@@ -10,7 +10,11 @@
     $action = isset($data['action'])?$data['action']:"";
     if ($action==="register"){
         $username = $data['username'];
-        $password = $data['password'];
+        if ($username =="anon"){
+                echo json_encode(["status"=>"Error", "message"=>"Cannot use this account"]);
+        }
+        else{
+                   $password = $data['password'];
         $hashedPass = password_hash($password, PASSWORD_BCRYPT);
         try{
             $stmt = $pdo->prepare("Insert into users(username,user_password) values (:username, :password)");
@@ -33,10 +37,15 @@
         } catch (PDOException $e){
             echo json_encode(["status"=>"Error", "message"=>"Username already exists"]);
         }
+        }
     }
     elseif($action ==="login"){
         $username = $data['username'];
-        $password = $data['password'];
+        if($username=="anon"){
+            echo json_encode(["status"=>"Error", "message"=>"Cannot use this account"]);
+        }
+        else{
+            $password = $data['password'];
         $stmt = $pdo->prepare("Select * from users where username = :username");
         $stmt->execute([":username"=>$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -69,6 +78,7 @@
         }
         else{
             echo json_encode(["status"=>"Error", "message"=>"Invalid credentials"]);
+        }
         }
     }
     else if($action ==="logout"){

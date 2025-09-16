@@ -15,6 +15,7 @@ export const getCartFood = async(cartItems)=>{
     for (const item of cartItems){
         const temp =await getFoodByID(item.foodID);
         temp['quantity'] = item.quantity;
+        temp['itemPrice']= parseInt(item.quantity) * parseInt(temp.price);
         cartItemData.push(temp);
     }
     return cartItemData;
