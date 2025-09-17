@@ -31,6 +31,7 @@ const AuthForm=({mode})=>{
                         const userData = await getUserInfo();
                         setUserInfo(userData);
                         setCartItems(userData.cart_items);
+                        sessionStorage.removeItem("cartItems");
                         navigate("/");
                     }
                 }
@@ -53,6 +54,7 @@ const AuthForm=({mode})=>{
                         const userData = await getUserInfo();
                         setUserInfo(userData);
                         setCartItems(userData.cart_items);
+                        sessionStorage.removeItem("cartItems");
                         navigate("/");
                 }
             }

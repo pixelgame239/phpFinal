@@ -53,9 +53,11 @@ const FoodCart = ({data}) =>{
                     quantity: newCartItems[existingItem].quantity + 1
                 };
                 setCartItems(newCartItems);
+                sessionStorage.setItem("cartItems", JSON.stringify(newCartItems));
             }
             else{
                 setCartItems([...cartItems, orderDetail]);
+                sessionStorage.setItem("cartItems", JSON.stringify([...cartItems,orderDetail]));
             }
         }
         if(isBuy){

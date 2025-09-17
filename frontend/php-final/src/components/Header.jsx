@@ -16,6 +16,7 @@ const Header = () =>{
             setUserInfo(null);
             toggleDropdown();
             setCartItems([]);
+            sessionStorage.removeItem("cartItems");
             nav("/");
         }
         else{
@@ -38,7 +39,7 @@ const Header = () =>{
             {dropdownVisible && (
               <div className="avatar-menu">
                 {userInfo && userInfo.role ==="Admin"?<button>Manage</button>:null}
-                <button>Your Orders</button>
+                <button onClick={(()=>nav("/yourorders"))}>Your Orders</button>
                 <button onClick={handleLogout}>Logout</button>
               </div>
             )}

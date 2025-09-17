@@ -29,7 +29,7 @@ const AdminDashboard = () =>{
         <div className="dashboard-container">
             <div className="dashboard-customer">Total customers: {dashboardData.customerCount}</div>
             <div className="dashboard-order">Total orders: {dashboardData.orderCount}</div>
-            <div className="dashboard-revenue">Revenue: {dashboardData.revenueData}</div>
+            <div className="dashboard-revenue">Revenue: {new Intl.NumberFormat('vi-VN').format(dashboardData.revenueData)} VNĐ</div>
         </div>}
     </div>
 }

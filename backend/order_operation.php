@@ -30,4 +30,14 @@
             echo json_encode(["status"=>"error", "message"=>$e->getMessage()]);
         }
     }
+    elseif($action=="fetchOrders"){
+        try{
+            $stmt = $pdo->prepare("Select o.*, i.quantity, i.price, f.food_name, f.price as unitPrice from orders o join order_items i on o.order_id=i.order_id join foods f on f.id=i.food_id where o.user_id = :userID");
+            $stmt->execute(['userID'=>$data['userID']]);
+            $userOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($userOrders);
+        } catch(PDOException $e){
+            echo json_encode(['status'=>"error", "message"=>$e->getMessage()]);
+        }
+    }
 ?>

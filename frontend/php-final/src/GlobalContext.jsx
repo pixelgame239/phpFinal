@@ -12,6 +12,7 @@ export const GlobalProvider = ({children}) =>{
     const [cartItems, setCartItems] = useState([]);
     useEffect(()=>{
       const checkUserStatus = async () => {
+        setIsLoading(true);
             try {
                 const response = await api.get('handle_auth.php'); 
                 if (response.data) {
@@ -19,11 +20,16 @@ export const GlobalProvider = ({children}) =>{
                     setCartItems(response.data.cart_items);
                 } else {
                     setUserInfo(null);
+                    const storedCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+                    setCartItems(storedCartItems);
                 }
             } catch (err) {
                 console.error("Failed to fetch user info on app load", err);
                 setUserInfo(null); 
+                const storedCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];
+                setCartItems(storedCartItems);
             }
+            setIsLoading(false);
         };
 
         checkUserStatus();

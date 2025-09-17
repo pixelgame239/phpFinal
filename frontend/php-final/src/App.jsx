@@ -6,6 +6,8 @@ import HomePage from './pages/HomePage';
 import { GlobalProvider } from './GlobalContext';
 import FoodPage from './pages/FoodPage';
 import CartPage from './pages/CartPage';
+import ThankYouPage from './pages/ThankYouPage';
+import YourOrderPage from './pages/YourOrderPage';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/login" element ={<LoginPage />} />
             <Route path=':productid' element={<FoodPage></FoodPage>}></Route>
             <Route path='/cart' element={<CartPage></CartPage>}></Route>
+            <Route path='/thanks' element={<ThankYouPage></ThankYouPage>}></Route>
+            <Route path='/yourorders' element={<YourOrderPage></YourOrderPage>}></Route>
         </Routes>
       </Router>
     </GlobalProvider>

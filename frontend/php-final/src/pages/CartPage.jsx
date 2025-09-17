@@ -5,12 +5,16 @@ import LoadingComponent from "../components/LoadingComponent";
 import "../styles/order.css";
 import BackButton from "../components/BackButton";
 import api from "../API";
+import { useNavigate } from "react-router-dom";
+import CheckoutForm from "../components/CheckoutForm";
 
 const CartPage = () =>{
     const { cartItems, setCartItems, userInfo, setUserInfo } = useGlobalContext(); 
     const [cartDetail, setCartDetail] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [cartTotal, setCartTotal] = useState(0);
+    const [showCheckout, setShowCheckout] = useState(false);
+    const nav = useNavigate();
     const handleQuantityChange = async(itemID, newQuantity) => {
         setIsLoading(true);
         if (newQuantity <= 0 || isNaN(newQuantity)){
@@ -48,6 +52,7 @@ const CartPage = () =>{
         else{
                 setCartItems(updateCartItems);
                 setCartDetail(updatedCart);
+                sessionStorage.setItem("cartItems", updateCartItems);
         }
         setIsLoading(false);
     };
@@ -77,16 +82,21 @@ const CartPage = () =>{
             } else {
                 setCartItems(updatedCartItems);
                 setCartDetail(updatedCartDetail);
+                sessionStorage.setItem("cartItems", updatedCartItems);
             }
 
             setIsLoading(false);
         };
-    const handleConfirmOrder = async () =>{
+    const handleConfirmOrder = async (formData) =>{
         setIsLoading(true);
         try{
             let UID = 3
             if(userInfo){
-                UID = userInfo.id;
+                UID = userInfo.userID;
+                await api.post("order_operation.php",{action:"updateCart", cartItems:"[]", userID: UID})
+            }
+            else{
+                sessionStorage.setItem("cartItems", "[]");
             }
             const response = await api.post("order_operation.php", {
                 action: "confirmOrder",
@@ -95,7 +105,8 @@ const CartPage = () =>{
                 total:cartTotal
             });
             if(response.data.status==="OK"){
-                console.log(response);
+                setCartDetail([]);
+                setCartItems([]);
             }
             else{
                 console.error(response);
@@ -104,6 +115,9 @@ const CartPage = () =>{
             console.error(err);
         }
         setIsLoading(false);
+    }
+    const handleShowCheckout = () =>{
+        setShowCheckout(true);
     }
     
     useEffect(()=>{
@@ -116,7 +130,7 @@ const CartPage = () =>{
         }
         loadCartDetail();
         console.log(cartDetail);
-    },[])
+    },[cartItems])
     useEffect(()=>{
         let tempTotal = 0;
             cartDetail.forEach(cart => {
@@ -149,7 +163,14 @@ const CartPage = () =>{
         }))}
     </div>
     {cartItems.length===0?null:<><p className="all-cart-total">Cart total: {new Intl.NumberFormat('vi-VN').format(parseInt(cartTotal))}</p>
-    <button className="confirm-order-btn" onClick={handleConfirmOrder}>Confirm Order</button></>}
+    <button className="confirm-order-btn" onClick={handleShowCheckout}>Confirm Order</button></>}
+        {showCheckout && (
+                    <CheckoutForm 
+                        onConfirm={handleConfirmOrder} 
+                        onCancel={() => setShowCheckout(false)} 
+                        total={cartTotal}
+                    />
+        )}
     </> 
 }
 export default CartPage;

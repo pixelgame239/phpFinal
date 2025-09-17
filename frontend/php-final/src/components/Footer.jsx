@@ -6,12 +6,12 @@ const Footer = () => {
     <footer className="footer-container">
       <div className="footer-content">
         <div className="footer-section">
-          <h4>Virtual Address</h4>
-          <p>1234 Restaurant St., Food City, TastyLand</p>
+          <h4>Address</h4>
+          <p>Nam Tu Liem, Ha Noi</p>
         </div>
         <div className="footer-section">
           <h4>Phone</h4>
-          <p>+84 123 456 789</p>
+          <p>+84 0000 000</p>
         </div>
         <div className="footer-section">
           <h4>Follow Us</h4>
