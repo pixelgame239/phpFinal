@@ -76,6 +76,59 @@
     background-color: white;
     color: orangered;
 }
+/* .order-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    width: 95vw;
+    margin: auto;
+    gap: 15px;
+    margin-bottom: 10px;
+    border-radius: 16px;
+}
+.order-description{
+    border: 1px solid gray;
+} */
+ .order-table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1rem;
+    width: 95%;
+    margin: auto;
+}
+
+.order-table th,
+.order-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.order-table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+.order-op-buttons{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+.order-update-button, .order-cancel-button{
+    padding: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.order-cancel-button{
+    background-color: rgb(255, 37, 37);
+}
+.order-update-button{
+    background-color: rgb(26, 125, 255);
+}
 @media (max-width:750px) {
         .cart-item-container{
             width: 90%;

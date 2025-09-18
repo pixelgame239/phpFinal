@@ -32,11 +32,56 @@
     }
     elseif($action=="fetchOrders"){
         try{
-            $stmt = $pdo->prepare("Select o.*, i.quantity, i.price, f.food_name, f.price as unitPrice from orders o join order_items i on o.order_id=i.order_id join foods f on f.id=i.food_id where o.user_id = :userID");
+            $stmt= $pdo->prepare("Select order_id, total, status, created_at from orders where user_id = :userID");
             $stmt->execute(['userID'=>$data['userID']]);
             $userOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($userOrders);
+            $orderDetail = [];
+            foreach($userOrders as $singleOrder){
+                $orderID = $singleOrder['order_id'];
+                $stmt = $pdo->prepare("Select i.quantity, i.price, f.id, f.food_name, f.price as unitPrice from order_items i join foods f on f.id=i.food_id where i.order_id = :orderID");
+                $stmt->execute(['orderID'=>$orderID]);
+                $tempOrder = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $orderDetail[] = [
+                    'orderID'=>$singleOrder['order_id'],
+                    'total'=>$singleOrder['total'],
+                    'status'=>$singleOrder['status'],
+                    'created_at'=>$singleOrder['created_at'],
+                    'orderItems'=>$tempOrder
+                ];
+            }
+            echo json_encode(['orderDetails'=>$orderDetail]);
         } catch(PDOException $e){
+            echo json_encode(['status'=>"error", "message"=>$e->getMessage()]);
+        }
+    }
+    elseif($action=="updateOrder"){
+        try{
+            $stmt = $pdo->prepare("Update orders set total = :total where order_id = :orderID");
+            $stmt->execute(["total"=>$data['total'], "orderID"=>$data["orderID"]]);
+            foreach($data['orderItems'] as $item){
+                $stmt = $pdo->prepare("Update order_items set quantity= :quantity, price= :price where order_id = :orderID and food_id = :foodID");
+                $stmt->execute(["quantity"=>$item['quantity'], "price"=>$item['price'], "orderID"=>$data["orderID"], "foodID"=>$item['id']]);
+            }
+            echo json_encode(["status"=>"OK", "message"=>"Update successfully"]);
+        } catch(PDOException $e){
+            echo json_encode(['status'=>"error", "message"=>$e->getMessage()]);
+        }
+    }
+    elseif($action=="cancelOrder"){
+        try{
+            $stmt = $pdo ->prepare("Update orders set status = 'Cancelled' where order_id = :orderID");
+            $stmt->execute(["orderID"=>$data['orderID']]);
+            echo json_encode(["status"=>"OK", "message"=>"Cancel successfully"]);
+        }   catch(PDOException $e){
+            echo json_encode(['status'=>"error", "message"=>$e->getMessage()]);
+        }
+    }
+    elseif($action=="deleteOrder"){
+        try{
+            $stmt = $pdo->prepare("Delete from orders where order_id= :orderID");
+            $stmt->execute(["orderID"=>$data['orderID']]);
+            echo json_encode(["status"=>"OK", "message"=>"Delete successfully"]);
+        }   catch(PDOException $e){
             echo json_encode(['status'=>"error", "message"=>$e->getMessage()]);
         }
     }

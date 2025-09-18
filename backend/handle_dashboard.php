@@ -11,7 +11,7 @@
         $customerCount = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         $stmt=$pdo->query("Select Count(*) as count from orders");
         $orderCount = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-        $stmt=$pdo->query("Select Sum(total) as revenue from orders");
+        $stmt=$pdo->query("Select Sum(total) as revenue from orders where status != 'Pending' and status != 'Cancelled'");
         $revenueData = $stmt->fetch(PDO::FETCH_ASSOC)['revenue'];
         if($revenueData==null){
             $revenueData =0;
