@@ -1,0 +1,126 @@
+.manage-container {
+    display: flex;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.manage-drawer {
+    flex: 1;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    margin-right: 10px;
+    min-width: 150px;
+}
+
+.drawer-item {
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.drawer-item:hover {
+    background-color: #dbdbdb;
+}
+
+.drawer-item.active-drawer {
+    font-weight: bold;
+    background-color: #0077cc;
+    color: white;
+    border-radius: 4px;
+}
+
+.manage-content {
+    flex: 7;
+    min-width: 250px;
+}
+
+.toggle-drawer-button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+@media (max-width: 800px) {
+    .manage-container {
+        flex-direction: column;
+    }
+    .manage-drawer {
+        border-right: none;
+        border: 1px solid #ccc;
+        margin: 10px 0;
+        padding: 10px;
+        width: 95%;
+    }
+}
+.manage-add-button, .manage-edit-button, .manage-delete-button{
+    color: white;
+    padding: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.manage-add-button{
+    background-color: #0186e5f0;
+}
+.manage-delete-button{
+    background-color: red;
+}
+.manage-edit-button{
+    background-color: green;
+}
+.admin-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.admin-overlay-box {
+    background-color: #fff;
+    padding: 20px;
+    width: 80vw;
+    border-radius: 8px;
+}
+
+.admin-form-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-form-group input {
+    padding: 8px;
+}
+
+.admin-overlay-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+.admin-positive-button, .admin-negative-button {
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 15px;
+}
+.admin-positive-button{
+    background-color: #0077cc;
+}
+.admin-negative-button{
+    background-color: red;
+}

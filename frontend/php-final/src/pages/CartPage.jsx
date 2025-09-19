@@ -102,11 +102,15 @@ const CartPage = () =>{
                 action: "confirmOrder",
                 cartItems: cartDetail,
                 userID: UID,
-                total:cartTotal
+                total:cartTotal,
+                checkout: formData
             });
             if(response.data.status==="OK"){
                 setCartDetail([]);
                 setCartItems([]);
+                if(userInfo){
+                    setUserInfo({...userInfo, cart_items: []});
+                }
             }
             else{
                 console.error(response);

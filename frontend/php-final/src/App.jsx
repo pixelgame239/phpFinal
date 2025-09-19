@@ -8,6 +8,7 @@ import FoodPage from './pages/FoodPage';
 import CartPage from './pages/CartPage';
 import ThankYouPage from './pages/ThankYouPage';
 import YourOrderPage from './pages/YourOrderPage';
+import ManagePage from './pages/ManagePage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path='/cart' element={<CartPage></CartPage>}></Route>
             <Route path='/thanks' element={<ThankYouPage></ThankYouPage>}></Route>
             <Route path='/yourorders' element={<YourOrderPage></YourOrderPage>}></Route>
+            <Route path='/admin' element={<ManagePage></ManagePage>}></Route>
         </Routes>
       </Router>
     </GlobalProvider>

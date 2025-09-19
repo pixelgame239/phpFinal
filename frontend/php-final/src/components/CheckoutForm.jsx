@@ -37,7 +37,7 @@ const CheckoutForm = ({ onConfirm, onCancel, total }) => {
                         <label>Payment Method:</label>
                         <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
                             <option value="Cash on Delivery">Cash on Delivery</option>
-                            <option value="Banking">Card</option>
+                            <option value="Banking">Banking</option>
                         </select>
                     </div>
                     <div className="form-total">

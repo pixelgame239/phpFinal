@@ -18,6 +18,7 @@ export const GlobalProvider = ({children}) =>{
                 if (response.data) {
                     setUserInfo(response.data);
                     setCartItems(response.data.cart_items);
+                    console.log(response.data.cart_items);
                 } else {
                     setUserInfo(null);
                     const storedCartItems = JSON.parse(sessionStorage.getItem("cartItems")) || [];

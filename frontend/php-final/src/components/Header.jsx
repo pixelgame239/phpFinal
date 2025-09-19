@@ -38,7 +38,7 @@ const Header = () =>{
             :<button onClick={()=>nav("/login")}>Login</button>}
             {dropdownVisible && (
               <div className="avatar-menu">
-                {userInfo && userInfo.role ==="Admin"?<button>Manage</button>:null}
+                {userInfo && userInfo.role ==="Admin"?<button onClick={()=>nav("/admin")}>Manage</button>:null}
                 <button onClick={(()=>nav("/yourorders"))}>Your Orders</button>
                 <button onClick={handleLogout}>Logout</button>
               </div>
