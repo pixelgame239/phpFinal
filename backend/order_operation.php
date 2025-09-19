@@ -1,4 +1,5 @@
 <?php
+    session_start();
     header("Access-Control-Allow-Origin: http://localhost:5173");
     header("Access-Control-Allow-Credentials: true");
     header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
@@ -25,6 +26,17 @@
                 $stmt = $pdo->prepare("Insert into order_items(order_id, food_id, quantity, price) values (:orderID, :foodID, :quantity,:price)");
                 $stmt->execute(["orderID"=>$newOrderID, "foodID"=>$item['id'], "quantity"=>$item['quantity'], "price"=>$item['itemPrice']]);
             }
+            $checkoutData = $data['checkout'];
+            $stmt = $pdo ->prepare("Insert into checkout(order_id, customer_name, address, phone, payment_method) values (:orderID, :custName, :address, :phone, :paymentMethod)");
+            $stmt->execute(["orderID"=>$newOrderID, "custName"=>$checkoutData['name'], "address"=>$checkoutData['address'], "phone"=>$checkoutData['phone'], "paymentMethod"=>$checkoutData['paymentMethod']]);
+            if(isset($_SESSION['cart_items'])){
+                $_SESSION['cart_items'] = [];
+            }
+            elseif(isset($_COOKIE['userInfo'])){
+                $user = json_decode($_COOKIE['userInfo'], true);
+                $user['cart_items'] =[];
+                setcookie('userInfo', json_encode($user), time() + (60*60*24), '/', "", false, true);
+            }
             echo json_encode(["status"=>"OK", "message"=>"Successfully ordered"]);
         } catch(PDOException $e){
             echo json_encode(["status"=>"error", "message"=>$e->getMessage()]);
@@ -32,8 +44,19 @@
     }
     elseif($action=="fetchOrders"){
         try{
-            $stmt= $pdo->prepare("Select order_id, total, status, created_at from orders where user_id = :userID");
+            $stmt = $pdo ->prepare("Select Count(*) as total from orders where user_id =:userID");
             $stmt->execute(['userID'=>$data['userID']]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $totalOrders = (int)$row['total'];
+            $totalPages = ceil($totalOrders / 10);
+            $currentPage = (int)$data['currentPage'];
+            $limit = 10;
+            $offset = ($currentPage-1) *$limit;
+            $stmt= $pdo->prepare("Select order_id, total, status, created_at from orders where user_id = :userID order by created_at desc limit :limit offset :offset");
+           $stmt->bindValue(':userID', $data['userID'], PDO::PARAM_INT);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
             $userOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $orderDetail = [];
             foreach($userOrders as $singleOrder){
@@ -49,7 +72,7 @@
                     'orderItems'=>$tempOrder
                 ];
             }
-            echo json_encode(['orderDetails'=>$orderDetail]);
+            echo json_encode(["totalPages"=> $totalPages, 'orderDetails'=>$orderDetail]);
         } catch(PDOException $e){
             echo json_encode(['status'=>"error", "message"=>$e->getMessage()]);
         }
