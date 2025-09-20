@@ -34,6 +34,9 @@ const AuthForm=({mode})=>{
                         sessionStorage.removeItem("cartItems");
                         navigate("/");
                     }
+                    else{
+                        setError(response.data.message);
+                    }
                 }
                 catch (error){
                     setError(error);
@@ -56,6 +59,9 @@ const AuthForm=({mode})=>{
                         setCartItems(userData.cart_items);
                         sessionStorage.removeItem("cartItems");
                         navigate("/");
+                }
+                else{
+                    setError(response.data.message);
                 }
             }
             catch (error){

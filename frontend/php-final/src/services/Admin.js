@@ -58,7 +58,7 @@ export const deleteCategory = async(categoryID)=>{
         return false;
     }
     else{
-        console.log("Updated")
+        console.log("Deleted")
         return true;
     }
 }
@@ -84,16 +84,6 @@ export const addFood = async(foodData)=>{
         return false;
     }
 }
-export const getCategories = async()=>{
-    const response = await api.post("manage_admin.php", {action:"getCategories"});
-    if(response.data.status==="Error"){
-        console.error(response);
-        return [];
-    }
-    else{
-        return response.data;
-    }
-}
 export const deleteFood = async(foodID)=>{
     const response = await api.post("manage_admin.php", {action:"deleteFood", foodID: foodID});
     if(response.data.status==="Error"){
@@ -103,5 +93,15 @@ export const deleteFood = async(foodID)=>{
     else{
         console.log("Updated")
         return true;
+    }
+}
+export const getCategories = async()=>{
+    const response = await api.post("manage_admin.php", {action:"getCategories"});
+    if(response.data.status==="Error"){
+        console.error(response);
+        return [];
+    }
+    else{
+        return response.data;
     }
 }
