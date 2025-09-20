@@ -61,6 +61,7 @@ const YourOrderPage = () =>{
     return <div>
             <BackButton></BackButton>
             <h1 style={{textAlign:"center"}}>Your Orders</h1>
+            <div style={{overflowX:"auto", width:"100%"}}>
             <table className="order-table">
                 <thead>
                     <tr>
@@ -131,6 +132,7 @@ const YourOrderPage = () =>{
                     ))}
                 </tbody>
             </table>
+            </div>
                 {/* {orderDetails.map((order)=>{
                     return <div className="order-container">
                             <div className="order-description">

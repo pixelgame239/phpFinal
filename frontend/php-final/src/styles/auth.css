@@ -114,7 +114,7 @@
 .register-btn { background-color: #22c55e; }
 
 /* responsive nhỏ hơn */
-@media (max-width: 430px) {
+@media (max-width: 440px) {
   .login-title { font-size: 2.4rem; }
   .login-form { padding: 20px; }
 }

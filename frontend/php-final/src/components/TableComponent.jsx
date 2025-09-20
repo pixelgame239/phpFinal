@@ -71,7 +71,7 @@ const TableComponent = ( {tableContent, currentTable} ) =>{
                                 </select>
                             ) : col === "food_image" ? (
                                 <img
-                                    src={`http://localhost/final/backend/${row[col]}`}
+                                    src={`http://localhost/final/backend/${row[col]}?t=${Date.now()}`}
                                     alt="food"
                                     style={{ maxWidth: "100px", maxHeight: "100px", objectFit: "cover" }}
                                 />

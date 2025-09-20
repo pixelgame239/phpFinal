@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/manage.css";
-import { deleteCategory, editCategory, insertCategory } from "../services/Admin";
+import { addFood, deleteCategory, deleteFood, editCategory, insertCategory, updateFood } from "../services/Admin";
 import { useGlobalContext } from "../GlobalContext";
 
 const AdminOverlay = ({ overlayType, rowData = {}, currentTable, setIsOverlay, categories }) => {
@@ -34,7 +34,7 @@ const AdminOverlay = ({ overlayType, rowData = {}, currentTable, setIsOverlay, c
                     food_image: rowData.food_image,
                     order_count: rowData.order_count
                 } : {});
-                setPreviewImage(rowData.food_image ? `http://localhost/final/backend/${rowData.food_image}` : null);
+                setPreviewImage(rowData.food_image ? `http://localhost/final/backend/${rowData.food_image}?t=${Date.now()}` : null);
         }
     }, [overlayType, rowData, currentTable, categories]);
 
@@ -66,11 +66,16 @@ const AdminOverlay = ({ overlayType, rowData = {}, currentTable, setIsOverlay, c
             }
         }
         else if(currentTable==="foods"){
+            const sendData = new FormData();
+                for(const key in formData){
+                    sendData.append(key, formData[key])
+            }
             if(overlayType==="add"){
-
+                resStatus = await addFood(sendData);
             }
             else if(overlayType==="edit"){
-                
+                sendData.append('id', rowData.id);
+                resStatus = await updateFood(sendData);
             }
         }
         if(resStatus){
@@ -87,6 +92,9 @@ const AdminOverlay = ({ overlayType, rowData = {}, currentTable, setIsOverlay, c
         let resStatus;
         if(currentTable==="category"){
             resStatus = await deleteCategory(rowData.id);
+        }
+        if(currentTable==="foods"){
+            resStatus= await deleteFood(rowData.id);
         }
         if(resStatus){
             alert("Successfully");
@@ -140,6 +148,7 @@ const AdminOverlay = ({ overlayType, rowData = {}, currentTable, setIsOverlay, c
                                         name={key}
                                         value={formData[key]}
                                         onChange={handleChange}
+                                        disabled={key==="order_count"}
                                         />
                                     )
                                 }

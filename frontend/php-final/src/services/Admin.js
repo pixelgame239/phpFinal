@@ -63,14 +63,25 @@ export const deleteCategory = async(categoryID)=>{
     }
 }
 export const updateFood = async(foodData) =>{
-    const response = await api.post("manage_admin.php", {action:"updateFood", foodData:foodData});
-     if(response.data.status==="Error"){
-        console.error(response);
+    try{
+        const response = await api.post("manage_admin.php?action=updateFood", foodData, {headers:{
+            'Content-Type': 'multipart/form-data',
+        },});
+        return response.data.status === 'OK';
+    } catch(err){
+        console.error(err);
         return false;
     }
-    else{
-        console.log("Updated")
-        return true;
+}
+export const addFood = async(foodData)=>{
+    try{
+        const response = await api.post("manage_admin.php?action=addFood", foodData, {headers:{
+            'Content-Type': 'multipart/form-data',
+        },});
+        return response.data.status === 'OK';
+    } catch(err){
+        console.error(err);
+        return false;
     }
 }
 export const getCategories = async()=>{
@@ -81,5 +92,16 @@ export const getCategories = async()=>{
     }
     else{
         return response.data;
+    }
+}
+export const deleteFood = async(foodID)=>{
+    const response = await api.post("manage_admin.php", {action:"deleteFood", foodID: foodID});
+    if(response.data.status==="Error"){
+        console.error(response);
+        return false;
+    }
+    else{
+        console.log("Updated")
+        return true;
     }
 }

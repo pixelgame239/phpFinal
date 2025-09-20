@@ -32,6 +32,8 @@
 .manage-content {
     flex: 7;
     min-width: 250px;
+    overflow-x: auto;
+    width: 100%;
 }
 
 .toggle-drawer-button {
