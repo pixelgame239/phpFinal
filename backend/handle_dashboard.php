@@ -7,7 +7,7 @@
     header('Content-Type: application/json');
     $data = json_decode(file_get_contents("php://input"), true);
     try{
-        $stmt=$pdo->query("Select Count(*) as count from users where user_role = 'Customer'");
+        $stmt=$pdo->query("Select Count(*) as count from users where user_role = 'Customer' and  username != 'anon'");
         $customerCount = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
         $stmt=$pdo->query("Select Count(*) as count from orders");
         $orderCount = $stmt->fetch(PDO::FETCH_ASSOC)['count'];

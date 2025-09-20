@@ -73,11 +73,11 @@
                 echo json_encode(["status"=>"OK", "message"=>"Logged in"]);
             }
             else{
-                echo json_encode(["status"=>"Error", "message"=>"Password failed"]);
+                echo json_encode(["status"=>"Error", "message"=>"Incorrect username or password"]);
             }
         }
         else{
-            echo json_encode(["status"=>"Error", "message"=>"Invalid credentials"]);
+            echo json_encode(["status"=>"Error", "message"=>"Incorrect username or password"]);
         }
         }
     }
