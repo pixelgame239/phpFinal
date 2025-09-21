@@ -19,12 +19,13 @@ const HomePage = () =>{
             try{
                 setIsLoading(true);
                 const response = await api.post("fetch_foods.php", {action:"bestSeller"});
-                if (response.data && response.data.length>0){
-                    console.log(response.data);
-                    setFetchedFoods(response.data);
+                if (response.data.status ==="Error"){
+                    setError(true);
+                    console.log(response.data.message);
                 }
                 else{
-                    setError(true);
+                    console.log(response.data);
+                    setFetchedFoods(response.data);
                 }    
             } catch(err){
                 console.error(err);

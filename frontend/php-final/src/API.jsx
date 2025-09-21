@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost/final/backend',
+  baseURL: 'http://online-restaurant.great-site.net/final/backend',
   withCredentials:true
 });
 

@@ -67,7 +67,7 @@ const FoodCart = ({data}) =>{
     }
     return <div className="card-container" onClick={handleClick}>
         <div className="card-img-container">        
-            <img src={`http://localhost/final/backend/${data.food_image}`} alt={data.food_name} className="card-img">
+            <img src={`http://online-restaurant.great-site.net/final/backend/${data.food_image}`} alt={data.food_name} className="card-img">
             </img>
         </div>
         <p className="card-title">{data.food_name}</p>

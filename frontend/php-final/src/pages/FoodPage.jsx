@@ -90,7 +90,7 @@ const FoodPage = () =>{
         <BackButton></BackButton>
         {isLoading?<LoadingComponent></LoadingComponent>:isError?<p>Unexpected Error: Food not found</p>:
         <><div className="detail-container">
-            <div><img src={`http://localhost/final/backend/${foodData.food_image}`} alt={foodData.food_name} className="detail-img"></img></div>
+            <div><img src={`http://online-restaurant.great-site.net/final/backend/${foodData.food_image}`} alt={foodData.food_name} className="detail-img"></img></div>
             <div className="detail-information">
                 <h1 className="detail-title">{foodData.food_name}</h1>
                 <p className="detail-description">{foodData.description}</p>

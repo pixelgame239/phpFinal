@@ -34,7 +34,7 @@ const AdminOverlay = ({ overlayType, rowData = {}, currentTable, setIsOverlay, c
                     food_image: rowData.food_image,
                     order_count: rowData.order_count
                 } : {});
-                setPreviewImage(rowData.food_image ? `http://localhost/final/backend/${rowData.food_image}?t=${Date.now()}` : null);
+                setPreviewImage(rowData.food_image ? `http://online-restaurant.great-site.net/final/backend/${rowData.food_image}?t=${Date.now()}` : null);
         }
     }, [overlayType, rowData, currentTable, categories]);
 

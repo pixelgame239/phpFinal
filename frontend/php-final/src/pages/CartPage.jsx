@@ -150,7 +150,7 @@ const CartPage = () =>{
              (cartDetail.map((item)=>{
                 return(
             <div className="cart-item-container">
-                <img src={`http://localhost/final/backend/${item.food_image}`} className="cart-image"></img>
+                <img src={`http://online-restaurant.great-site.net/final/backend/${item.food_image}`} className="cart-image"></img>
                 <div className="cart-name">
                     <p>{item.food_name}</p>
                     <p style={{color:"red", fontWeight:'bold'}}>{new Intl.NumberFormat('vi-VN').format(item.price)}</p>

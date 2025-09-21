@@ -1,5 +1,5 @@
 <?php
-    header("Access-Control-Allow-Origin: http://localhost:5173");
+    header("Access-Control-Allow-Origin: http://online-restaurant.great-site.net");
     header("Access-Control-Allow-Credentials: true");
     header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
@@ -9,10 +9,14 @@
     $action = isset($data['action']) ? $data['action']:"";
     if ($data && isset($data['action'])) {
         if($data['action'] == 'bestSeller'){
-            $stmt = $pdo->query("Select * from foods order by order_count desc limit 3");
-            $topFoods = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($topFoods);
+            try{
+                $stmt = $pdo->query("Select * from foods order by order_count desc limit 3");
+                $topFoods = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($topFoods);
+            }catch(Exception $e){
+                echo json_encode(["status"=>"Error", "message"=>$e->getMessage()]);
         }
+        } 
         elseif($data['action']=='fetchAll'){
             $stmt = $pdo->query("Select f.*, category_name from foods f join category c on f.cat_id = c.id");
             $allFoods = $stmt ->fetchAll(PDO::FETCH_ASSOC);
@@ -21,17 +25,22 @@
     }
     else{
         if (isset($_GET['parameter']) && trim($_GET['parameter']) !== '') {
-            $searchParam = $_GET['parameter'];
-            $searchTerm  = "%{$searchParam}%";
+            try{
+                $searchParam = $_GET['parameter'];
+                $searchTerm  = "%{$searchParam}%";
 
-            $stmt = $pdo->prepare("
-                SELECT f.*, c.category_name
-                FROM foods f
-                JOIN category c ON f.cat_id = c.id
-                WHERE f.food_name LIKE :search
-            ");
-            $stmt->execute([':search' => $searchTerm]);
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+                $stmt = $pdo->prepare("
+                    SELECT f.*, c.category_name
+                    FROM foods f
+                    JOIN category c ON f.cat_id = c.id
+                    WHERE f.food_name LIKE :search
+                ");
+                $stmt->execute([':search' => $searchTerm]);
+                echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+            } catch(Exception $e){
+                echo json_encode(["status"=>"Error", "message"=>$e->getMessage()]);
+            }
+            
         } elseif(isset($_GET['productID']) && is_numeric($_GET['productID'])){
             $productID = $_GET['productID'];
             $stmt = $pdo->prepare("Select * from foods where id = :productID");
