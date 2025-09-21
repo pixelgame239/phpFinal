@@ -54,11 +54,12 @@
     }
     if($action == "getTables"){
         try{
-            $stmt = $pdo->prepare("SELECT table_name FROM information_schema.tables WHERE table_schema = 'final'");
-            $stmt->execute();
-            $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            // $stmt = $pdo->prepare("SELECT table_name FROM information_schema.tables WHERE table_schema = 'if0_38631743_db504'");
+            // $stmt->execute();
+            // $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $tables = ['orders', 'order_items', 'foods', 'checkout', 'users', 'category'];
             echo json_encode([$tables]);
-        } catch(PDOException $e){
+        } catch(Exception $e){
             echo json_encode(["status"=>"Error", "message"=>$e->getMessage()]);
         }
     }
